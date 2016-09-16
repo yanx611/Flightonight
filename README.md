@@ -1,7 +1,7 @@
 #Project Name
 BOOKGO
-##description
+##Description
 a website/an application that allow RPI students to exchange used textbooks. 
 
-##team members
+##Team Members
 Ying Guo, Yiyan Xu, Xinyue Yan
