@@ -1,7 +1,7 @@
 #Project Name
 Flightonight
 ##Description
-a website/an application that allow RPI students to exchange used textbooks. 
+a website helps students to order the cheapest flight tickests.
 
 ##Team Members
 Ying Guo, Yiyan Xu, Xinyue Yan
