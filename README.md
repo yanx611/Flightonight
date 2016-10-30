@@ -1,5 +1,4 @@
-#Project Name
-Flightonight
+#Flightonight
 
 ###Description
 This project focuses on developing a website which is easier for people who is watching for the cheapest flight tickests. It involves search for the flights with users' perferences and automatically sending to users' emails everyday for noticing the change of the tickets peices. It would also include a graph generating the trend of the price change from the first day users search. At the point uses purchase with the prices they are satisfied with, they could always unsubscribe it. 
