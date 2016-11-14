@@ -3,7 +3,6 @@
 	<head>
 		<title>Flightonight</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" type="text/css">
-		<link rel="stylesheet" href="resources/style.css" type="text/css">
 	</head>
 	<body>
 		<div class="ui grid">
@@ -14,6 +13,7 @@
 				<div class = "six wide column">
 					<h1 class="ui dividing header">Flightonight</h1>
 				</div>
+				<div class = "five wide column"></div>
 			</div>
 			<div class="row">
 				<div class = "six wide column"></div>
@@ -29,21 +29,21 @@
 			</div>
 			<div class="row">
 				<div class = "five wide column"></div>
-				<form class="ui form" action="index.html" method="post">
+				<form class="ui form" action="index.html" method="post" id = "info">
 					<h4 class="ui dividing header">Trip:</h4>
 					<label>Airport</label>
 					<div class="two fields">
 				      <div class="field">
-				        <input type="text" name="departureAirport" placeholder="From">
+				        <input type="text" name="departureAirport" placeholder="Origin" id = "origin">
 				      </div>
 				      <div class="field">
-				        <input type="text" name="arrivalCity" placeholder="To">
+				        <input type="text" name="arrivalAirport" placeholder="Destination" id = "destination">
 				      </div>
 				    </div>
 					<label>Departure Time</label>
 					<div class="three fields">
 						<div class="field">
-  			            <select class="ui fluid search dropdown" name="departure[month]">
+  			            <select class="ui fluid search dropdown" name="departure[month]" id = "dpMonth">
   			              <option value="">Month</option>
   			              <option value="1">January</option>
   			              <option value="2">February</option>
@@ -60,10 +60,10 @@
   			            </select>
   			          </div>
 					  <div class="field">
-						<input type="text" name="departure[day]" maxlength="2" placeholder="Day">
+						<input type="text" name="departure[day]" maxlength="2" placeholder="Day" id = "dpDay">
 					  </div>
 					<div class="field">
-					  <input type="text" name="departure[year]" maxlength="4" placeholder="Year">
+					  <input type="text" name="departure[year]" maxlength="4" placeholder="Year" id = "dpYear">
 					</div>
 					<div class="field"></div>
 					</div>
@@ -108,6 +108,8 @@
 			</div>
 
 		</div>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="resources/main.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
 	</body>
 </html>
