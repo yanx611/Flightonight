@@ -42,7 +42,7 @@ $(document).ready(function(){
 				"slice" : [
 					{
 						"origin": $("#origin").val(),
-						"destination": $("#des").val(),
+						"destination": $("#destination").val(),
 						"date":$("#dpYear").val()+'-'+$("#dpMonth").val()+'-'+$("#dpDay").val()
 					}
 				],
@@ -57,20 +57,21 @@ $(document).ready(function(){
 				"refundable" : false
 			}
 		};
+		alert($("#dpYear").val()+'-'+$("#dpMonth").val()+'-'+$("#dpDay").val()+"from "+$("#origin").val()+" to "+ $("#destination").val())
 
 
 		//use the input value to get request from qpx express api, 50 query max per day.
 		$.ajax({
 			type: "POST",
 			url: "https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyAtcZMAH1JI3lyOdPqBoLI1P7piKmiM_hA",
-			contentType: 'application/json',
-			dataType: 'json',
+			dataType: 'jsonp',
 			data: JSON.stringify(FlightRequest),
 			success: function(data) {
 				console.log(JSON.stringify(data));
 			},
-			error: function() {
-				alert("Access to Google QPX Express failed");
+			error: function(error) {
+				// alert("Access to Google QPX Express failed");
+				cosnsole.log(error)
 			}
 		});
 	});
