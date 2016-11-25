@@ -62,7 +62,7 @@ def userrequest():
 
 def ans():
     info = userrequest();
-    url = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyAqMuHsyAfVQpVUt8PyWz218nioV0qRWDw'
+    url = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=somekey'
     headers = {'Content-Type':'application/json'}
     response = requests.post(url,data = json.dumps(info),headers = headers)
     return response

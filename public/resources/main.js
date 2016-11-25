@@ -61,7 +61,7 @@ $(document).ready(function(){
 		//use the input value to get request from qpx express api, 50 query max per day.
 		$.ajax({
 			type: "POST",
-			url: "https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyAqMuHsyAfVQpVUt8PyWz218nioV0qRWDw",
+			url: "https://www.googleapis.com/qpxExpress/v1/trips/search?key=somekey",
 			dataType: 'json',
 			contentType: 'application/json',
 			data: JSON.stringify(FlightRequest),
