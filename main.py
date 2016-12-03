@@ -67,7 +67,7 @@ def userrequest():
 
 
 def ans(info):
-    url = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyAqMuHsyAfVQpVUt8PyWz218nioV0qRWDw'
+    url = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=somekey'
     headers = {'Content-Type':'application/json'}
     response = requests.post(url,data = json.dumps(info),headers = headers)
     response = response.json()
@@ -97,7 +97,7 @@ def sendmail(data):
         s = smtplib.SMTP('smtp.gmail.com',587)
         s.ehlo()
         s.starttls()
-        s.login('yanx611@gmail.com','1TsudaKenoHanaYo_2Yue874')
+        s.login('someaccount','somepass')
         s.sendmail(from_add,to_add,data)
         s.quit()
     except smtplib.SMTPException:
