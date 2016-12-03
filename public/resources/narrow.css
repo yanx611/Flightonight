@@ -1,0 +1,24 @@
+body{
+    background-image: url("bk.jpg");
+    background-color: #1b234a;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#container {
+    background-color: #FFF;
+    opacity: 0.95;
+    margin: auto;
+    margin: 3em 3em 3em 3em;
+    border-radius: 10px;
+    padding: 2em;
+}
+
+#logo {
+    margin: auto;
+    padding: 1em;
+}
+h1{
+    margin: auto;
+    text-align: center;
+}

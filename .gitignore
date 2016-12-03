@@ -1,2 +1,9 @@
 create
 .DS_Store
+node_modules/**
+node_modules/
+npm-debug.log
+semantic
+semantic.json
+test.js
+package.json
