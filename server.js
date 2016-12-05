@@ -6,6 +6,7 @@ var http = require('http').Server(app);
 var fs = require('fs');
 var request = require('request');
 var mailer = require('nodemailer');
+var CronJob = require('cron').CronJob;
 
 app.use(express.static('public'));
 app.use(bodyParser());
@@ -19,6 +20,7 @@ app.post('/user', function(req, res) {
     pushUser(req.body);
 });
 
+
 function pushUser(data) {
     console.log(data.origin);
     fs.readFile('data/user.json', 'utf8', function readFileCallback(err, file){
@@ -26,26 +28,57 @@ function pushUser(data) {
             console.log(err);
         } else {
         obj = JSON.parse(file);
-        var p =
-        {
-            "email" : data.email,
-            "FlightRequest": {
-                "request": {
-                    "slice":[
-                        {
-                            "origin":data.origin,
-                            "destination":data.destination,
-                            "date":data.dpdate,
-                            "maxConnectionDuration":data.waiting
-                        }
-                    ],
-                    "passengers": {
-                        "adultCount":data.num
-                    },
-                    "solutions":1
+        var p;
+        if (data.round == 0) {
+            var p =
+            {
+                "email" : data.email,
+                "FlightRequest": {
+                    "request": {
+                        "slice":[
+                            {
+                                "origin":data.origin,
+                                "destination":data.destination,
+                                "date":data.dpdate,
+                                "maxConnectionDuration":data.waiting
+                            }
+                        ],
+                        "passengers": {
+                            "adultCount":data.num
+                        },
+                        "solutions":1
+                    }
                 }
-            }
-        };
+            };
+        } else {
+            var p =
+            {
+                "email" : data.email,
+                "FlightRequest": {
+                    "request": {
+                        "slice":[
+                            {
+                                "origin":data.origin,
+                                "destination":data.destination,
+                                "date":data.dpdate,
+                                "maxConnectionDuration":data.waiting
+                            },
+                            {
+                                "origin":data.destination,
+                                "destination":data.origin,
+                                "date":data.retdate,
+                                "maxConnectionDuration":data.waiting
+                            }
+                        ],
+                        "passengers": {
+                            "adultCount":data.num
+                        },
+                        "solutions":1
+                    }
+                }
+            };
+        }
+
         obj.users.push(p); //add some new user
         json = JSON.stringify(obj); //convert it back to json
         fs.writeFile('data/user.json', json, 'utf8', function(err) {
@@ -55,12 +88,14 @@ function pushUser(data) {
 }
 
 
-function reqAPIdata(data) {
+function reqAPIdata(data,email) {
+    var EventEmitter = require('events').EventEmitter;
+    var resp = new EventEmitter();
     var mes = {
         method: 'post',
         body: data,
         json: true,
-        url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=apikey',
+        url: 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=somekey',
         headers: {
             'content-type' : 'application/json'
         }
@@ -70,10 +105,17 @@ function reqAPIdata(data) {
             console.log('Error: ',err);
             return;
         }
-        console.log('body: ', body);
         //return the api returned data for sending email
-        return body;
-    })
+        resp.data = body;
+        resp.mes = formatData(resp.data);
+        resp.mail = email;
+        resp.emit('update');
+    });
+
+    resp.on('update', function () {
+        console.log(resp.mail);
+        console.log(resp.mes);
+    });
 }
 
 function formatData(data) {
@@ -89,34 +131,54 @@ function formatData(data) {
     return output;
 }
 
-function sendEmail(add, mes) {
-    var smtpTransport = mailer.createTransport('SMTP', {
-        service: 'Gmail',
-        auth: {
-            user: "flightonight2016@gmail.com",
-            pass: "FlighT@rpi2016"
-        }
-    });
-    var mail = {
-        from: 'FlighTonight<flightonight2016@gmail.com>',
-        to: add,
-        subject: 'Lowest price for your trip from FlighTonight',
-        text: mes
-    }
-    smtpTransport.sendMail(mail, function(err, res) {
-        console.log(mail);
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("message send: " + res.message);
-        }
-        // smtpTransport.close();
+// function sendEmail(add, mes) {
+//     var smtpTransport = mailer.createTransport('SMTP', {
+//         service: 'Gmail',
+//         auth: {
+//             user: "flightonight2016@gmail.com",
+//             pass: "FlighT@rpi2016"
+//         }
+//     });
+//     var mail = {
+//         from: 'FlighTonight<flightonight2016@gmail.com>',
+//         to: add,
+//         subject: 'Lowest price for your trip from FlighTonight',
+//         text: mes
+//     }
+//     smtpTransport.sendMail(mail, function(err, res) {
+//         console.log(mail);
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log("message send: " + res.message);
+//         }
+//         // smtpTransport.close();
+//     });
+// }
+
+function executewhole() {
+    var list = JSON.parse(fs.readFileSync('data/user.json', 'utf8'));
+    list['users'].forEach(function(i) {
+        var d = i['FlightRequest'];
+        var e = i['email'];
+        var apireturn = reqAPIdata(d,e);
     });
 }
 
-// reqAPIdata({"request":{"slice":[{"origin":"ALB","destination":"PVG","date":"2017-2-2","maxConnectionDuration":120}],"passengers":{"adultCount":1},"solutions":1}})
 
-sendEmail('yanx611@gmail.com', 'hello');
+function schedule(){
+    var job = new CronJob({
+      cronTime: '10 * * * * *',
+      onTick: function() {
+        executewhole();
+      },
+      start: false,
+      timeZone: 'America/New_York'
+    });
+    job.start();
+}
+
+schedule();
 
 app.listen(4000, function(){
   console.log('Server up on *:4000');

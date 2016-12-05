@@ -34,7 +34,9 @@ $(document).ready(function(){
         rq.waiting = parseInt(parseFloat($("#waiting").val())*60);
         rq.num = parseInt($('#num').val());
         rq.email = $("#email").val();
+        rq.round = 0;
         if ($("#round").checked) {
+            rq.round = 1;
             rq.retdate = $("#retYear").val()+'-'+$("#retMonth").val()+'-'+$("#retDay").val();
         }
 
@@ -53,47 +55,4 @@ $(document).ready(function(){
 			}
 		});
     });
-
-
-	// $("#sub").click(function(e) {
-	// 	//create a request variable from the form
-	// 	var FlightRequest = {
-	// 		"request": {
-	// 			"slice" : [
-	// 				{
-	// 					"origin": $("#origin").val(),
-	// 					"destination": $("#destination").val(),
-	// 					"date":$("#dpYear").val()+'-'+$("#dpMonth").val()+'-'+$("#dpDay").val()
-	// 				}
-	// 			],
-	// 			"passengers" : {
-	// 				"adultCount" : 1,
-	// 				"infantInLapCount" : 0,
-	// 				"infantInSeatCount" : 0,
-	// 				"childCount" : 0,
-	// 				"seniorCount" : 0
-	// 			},
-	// 			"solutions" : 1
-	// 		}
-	// 	};
-	// 	alert($("#dpYear").val()+'-'+$("#dpMonth").val()+'-'+$("#dpDay").val()+" from  "+$("#origin").val()+" to "+ $("#destination").val())
-    //
-	// 	//use the input value to get request from qpx express api, 50 query max per day.
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "https://www.googleapis.com/qpxExpress/v1/trips/search?key=somekey",
-	// 		dataType: 'json',
-	// 		contentType: 'application/json',
-	// 		data: JSON.stringify(FlightRequest),
-	// 		success: function(data) {
-	// 			alert("Access to Google QPX Express success");
-	// 			console.log(JSON.stringify(data));
-    //
-	// 		},
-	// 		error: function(error) {
-	// 			console.log(error);
-	// 			alert("Access to Google QPX Express failed");
-	// 		}
-	// 	});
-	// });
 });
