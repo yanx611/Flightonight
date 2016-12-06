@@ -5,7 +5,8 @@ var http = require('http').Server(app);
 var fs = require('fs');
 var request = require('request');
 var CronJob = require('cron').CronJob;
-var mailer   = require("emailjs");
+var mailer  = require("emailjs");
+var moment = require('moment');
 
 app.use(express.static('public'));
 app.use(bodyParser());
@@ -125,6 +126,10 @@ function reqAPIdata(data,email) {
 
 function formatData(data) {
     output = "";
+    if (data['trips'].hasOwnProperty('tripOption') == false) {
+        output = output + "No solution";
+        return output;
+    }
     data['trips']['tripOption'].forEach(function(i) {
         output = output + "Lowest price is :"+i['saleTotal']+"\n";
         i['slice'].forEach(function(j){
@@ -165,9 +170,16 @@ function executewhole() {
     list['users'].forEach(function(i) {
         var d = i['FlightRequest'];
         var e = i['email'];
-        var apireturn = reqAPIdata(d,e);
+        //check if d.dpdate is valid for api input
+        var dp = d['request']['slice'][0]['date'];
+        if (moment(dp,"YYYY-MM-DD").fromNow()[0] == 'i') {
+            var apireturn = reqAPIdata(d,e);
+        } else {
+            console.log("this user's departure date has passed")
+        }
     });
 }
+
 
 function schedule(){
     var job = new CronJob({
@@ -182,8 +194,8 @@ function schedule(){
     job.start();
 }
 
-schedule();
-// executewhole();
+// schedule();
+executewhole();
 app.listen(4000, function(){
   console.log('Server up on *:4000');
 });
