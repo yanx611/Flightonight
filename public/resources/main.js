@@ -29,6 +29,21 @@ $(document).ready(function(){
             alert("Please fill in all fields");
             return false;
         }
+        if ($("#dpYear").val().length != 4 || $("#dpDay").val().length != 2) {
+            console.log("invalid departure date or year")
+            alert("Please enter valid departure date or year in the format of DD and YYYY.")
+            return false;
+        }
+        if ($("#origin").val().length != 3 || $("#des").val().length != 3 || /^[a-zA-Z]+$/.test($("#origin").val()) == false || /^[a-zA-Z]+$/.test($("#des").val()) == false ) {
+            console.log("invalid input for destination or origin");
+            alert("Please enter valid airport code.")
+            return false;
+        }
+        if ($("#origin").val() == $("#des").val()) {
+            console.log("same origin and destination");
+            alert("You cannot enter same value for origin and destination");
+            return false;
+        }
         console.log("fields valid!")
         var today = new Date();
         if (parseInt($("#dpYear").val()) < today.getFullYear()) {
@@ -55,6 +70,11 @@ $(document).ready(function(){
             console.log("roundtrip checked!")
             if ($("#retYear").val() == "" || $("#retMonth").val() == "" || $("#retDay").val() == "" ) {
                 alert("please enter return date");
+                return false;
+            }
+            if ($("#retYear").val().length != 4 || $("#retDay").val().length != 2) {
+                console.log("invalid return date or year")
+                alert("Please enter valid return date or year in the format of DD and YYYY.")
                 return false;
             }
             if (parseInt($("#retYear").val()) < parseInt($("#dpYear").val())) {
@@ -93,7 +113,7 @@ $(document).ready(function(){
         }
         return true;
     }
-    console.log("month-date valid!")
+
 
 
     //send the user data to server
