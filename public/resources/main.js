@@ -19,7 +19,7 @@ $(document).ready(function(){
 
     });
 
-
+    //check if the input is a valid format
     function validateForm() {
         numdays = [31,28,31,30,31,30,31,31,30,31,30,31];
         namemonth = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
