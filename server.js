@@ -94,6 +94,7 @@ function pushUser(data) {
 
 
 function reqAPIdata(data,email) {
+  //require the data from the API
     var EventEmitter = require('events').EventEmitter;
     var resp = new EventEmitter();
     var mes = {
