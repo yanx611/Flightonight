@@ -126,6 +126,7 @@ function reqAPIdata(data,email) {
 }
 
 function formatData(data) {
+  //set the format for the data sending to users
     output = "";
     if (data['trips'].hasOwnProperty('tripOption') == false) {
         output = output + "No solution";
