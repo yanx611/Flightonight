@@ -1,8 +1,30 @@
+import PyV8
+ctx = PyV8.JSContext()
+
 import plotly.plotly as py
 import plotly.graph_objs as go
 
 # Create random data with numpy
 import numpy as np
+
+#Try to interpret javascript
+class MockDocument(object):
+
+    def __init__(self):
+        self.value = ''
+
+    def write(self, *args):
+        self.value += ''.join(str(i) for i in args)
+
+
+class Global(PyV8.JSClass):
+    def __init__(self):
+        self.document = MockDocument()
+
+scope = Global()
+ctx = PyV8.JSContext(scope)
+ctx.enter()
+ctx.eval(js)
 
 N = 100
 random_x = np.linspace(0, 1, N)
@@ -33,3 +55,5 @@ data = [trace0, trace1, trace2]
 
 # Plot 
 py.iplot(data, filename='line-mode')
+print scope.document.value
+
