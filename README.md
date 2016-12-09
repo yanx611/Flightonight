@@ -13,7 +13,7 @@ This project focuses on developing a website which is easier for people who is w
 Anyone who is looking forward to purchase cheap flight tickets
 
 ### Techniques
-HTML, CSS, Javascript, Node.js
+HTML, CSS, Javascript, Node.js, python
 
 ### Goals
 - GOAL 1: Get familiar with the language we want to use
