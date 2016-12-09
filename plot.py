@@ -8,20 +8,19 @@ import plotly.graph_objs as go
 import numpy as np
 
 #Try to interpret javascript
-class MockDocument(object):
+class Doc(object):
 
     def __init__(self):
         self.value = ''
-
     def write(self, *args):
         self.value += ''.join(str(i) for i in args)
 
 
-class Global(PyV8.JSClass):
+class Forall(PyV8.JSClass):
     def __init__(self):
-        self.document = MockDocument()
+        self.document = Doc()
 
-scope = Global()
+scope = Forall()
 ctx = PyV8.JSContext(scope)
 ctx.enter()
 ctx.eval(js)
