@@ -94,7 +94,6 @@ function pushUser(data) {
 
 
 function reqAPIdata(data,email) {
-  //require the data from the API
     var EventEmitter = require('events').EventEmitter;
     var resp = new EventEmitter();
     var mes = {
@@ -126,7 +125,6 @@ function reqAPIdata(data,email) {
 }
 
 function formatData(data) {
-  //set the format for the data sending to users
     output = "";
     if (data['trips'].hasOwnProperty('tripOption') == false) {
         output = output + "No solution";
@@ -136,7 +134,7 @@ function formatData(data) {
         output = output + "Lowest price is :"+i['saleTotal']+"\n";
         i['slice'].forEach(function(j){
             j['segment'].forEach(function(k){
-                output = output + k['flight']['carrier']+" "+k['flight']['number']+" "+k['leg'][0]['origin']+" "+k['leg'][0]['departureTime']+" "+k['leg'][0]['destination']+" "+ k['leg'][0]['arrivalTime']+"\n";
+                output = output + "Flight number: "+ k['flight']['carrier']+" "+k['flight']['number']+" \nFrom:  "+k['leg'][0]['origin']+" at time "+k['leg'][0]['departureTime']+" \nTo: "+k['leg'][0]['destination']+" at time "+ k['leg'][0]['arrivalTime']+"\n";
             });
         });
     });
@@ -196,8 +194,8 @@ function schedule(){
     job.start();
 }
 
-// schedule();
-executewhole();
+schedule();
+
 app.listen(4000, function(){
   console.log('Server up on *:4000');
 });

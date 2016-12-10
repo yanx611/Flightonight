@@ -136,7 +136,7 @@ $(document).ready(function(){
             console.log("data post to server formed!");
         	$.ajax({
     			type: "POST",
-    			url: "http://localhost:4000/user",
+    			url: "/user",
     			dataType: 'json',
                 contentType: 'application/json',
     			data: JSON.stringify(rq),
